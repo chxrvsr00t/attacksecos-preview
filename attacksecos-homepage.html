@@ -421,6 +421,52 @@ h1 {
 }
 
 @keyframes cursorBlink { 50% { opacity: 0; } }
+/* CLI Table styling */
+.cli-container {
+    width: 100%;
+    overflow-x: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 48px;
+    padding: 16px;
+}
+.cli-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    text-align: left;
+}
+.cli-table th {
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding: 12px;
+    font-weight: 600;
+}
+.cli-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+.cli-table tr:last-child td {
+    border-bottom: none;
+}
+.cli-cmd {
+    background: var(--surface-2);
+    color: var(--accent);
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    font-weight: 500;
+    display: inline-block;
+}
+.cli-desc {
+    color: var(--text);
+}
+.cli-example {
+    color: var(--text-dim);
+}
 </style>
 </head>
 <body>
@@ -483,12 +529,12 @@ h1 {
             <span class="stat-label">GPS Locations</span>
         </div>
         <div class="stat">
-            <span class="stat-value">DoH</span>
-            <span class="stat-label">DNS Encryption</span>
+            <span class="stat-value">Kali</span>
+            <span class="stat-label">Rolling Base OS</span>
         </div>
         <div class="stat">
-            <span class="stat-value">Zero</span>
-            <span class="stat-label">Persistence Mode</span>
+            <span class="stat-value">Hardened</span>
+            <span class="stat-label">6.x Linux Kernel</span>
         </div>
     </div>
 
@@ -566,6 +612,28 @@ h1 {
                 <span class="tool-tag">FDE</span>
             </div>
         </div>
+        <div class="card">
+            <span class="card-icon">👑</span>
+            <h3>Exclusive Controls</h3>
+            <p>Signature security controls and emergency tools</p>
+            <div class="tools">
+                <span class="tool-tag">Panic Button</span>
+                <span class="tool-tag">TUI Control Panel</span>
+                <span class="tool-tag">RAM-Wipe (sdmem)</span>
+                <span class="tool-tag">Auto-Clip Clear</span>
+            </div>
+        </div>
+        <div class="card">
+            <span class="card-icon">⚡</span>
+            <h3>Anon Pentest</h3>
+            <p>Safe, automated proxies and agent obfuscation</p>
+            <div class="tools">
+                <span class="tool-tag">anon-nmap</span>
+                <span class="tool-tag">anon-sqlmap</span>
+                <span class="tool-tag">anon-wpscan</span>
+                <span class="tool-tag">anon-curl/nikto</span>
+            </div>
+        </div>
     </div>
 
     <!-- Terminal -->
@@ -578,21 +646,78 @@ h1 {
             <span class="terminal-title">attacksecos@attacksecos — zsh</span>
         </div>
         <div class="terminal-body">
-            <div><span class="comment"># Enable full anonymity mode</span></div>
-            <div><span class="prompt">$ </span><span class="cmd">anon-mode</span></div>
-            <div><span class="output">[+] Full anti-detection applied</span></div>
-            <div><span class="output">[+] Spoofed location: tokyo (35.6762, 139.6503)</span></div>
-            <div><span class="output">[+] UA rotation active</span></div>
+            <div><span class="comment"># Open the security control dashboard</span></div>
+            <div><span class="prompt">$ </span><span class="cmd">menu</span></div>
+            <div><span class="output">[+] Initializing AttackSecOS Security Dashboard...</span></div>
             <div>&nbsp;</div>
-            <div><span class="comment"># Run proxied scan</span></div>
-            <div><span class="prompt">$ </span><span class="cmd">proxychains nmap -sT -Pn target.com</span></div>
+            <div><span class="comment"># Run a fully Tor-anonymized Nmap scan (safely routed)</span></div>
+            <div><span class="prompt">$ </span><span class="cmd">anon-nmap target.com</span></div>
             <div>&nbsp;</div>
-            <div><span class="comment"># OSINT investigation</span></div>
-            <div><span class="prompt">$ </span><span class="cmd">sherlock username --timeout 10</span></div>
-            <div>&nbsp;</div>
-            <div><span class="comment"># Check identity status</span></div>
-            <div><span class="prompt">$ </span><span class="cmd">anti-detect status</span></div>
+            <div><span class="comment"># Trigger the Emergency Panic Self-Destruct</span></div>
+            <div><span class="prompt">$ </span><span class="cmd">panic</span></div>
+            <div><span class="output">[!] Emergency: Wiping active history, clipboards and shutting down...</span></div>
         </div>
+    </div>
+
+    <!-- Exclusive CLI Cheatsheet -->
+    <div class="section-title">🛠 Exclusive CLI Reference</div>
+    <div class="cli-container">
+        <table class="cli-table">
+            <thead>
+                <tr>
+                    <th>Command</th>
+                    <th>Description</th>
+                    <th>Example Usage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="cli-cmd">menu</span></td>
+                    <td class="cli-desc">Launches the custom Text User Interface (TUI) Dashboard for security, proxy, and identity management.</td>
+                    <td class="cli-example">menu</td>
+                </tr>
+                <tr>
+                    <td><span class="cli-cmd">panic</span></td>
+                    <td class="cli-desc">Emergency self-destruct script. Wipes clipboards, shreds terminal logs, cuts network interfaces, and shuts down safely.</td>
+                    <td class="cli-example">panic</td>
+                </tr>
+                <tr>
+                    <td><span class="cli-cmd">anon-mode</span></td>
+                    <td class="cli-desc">Fast toggle: enables transparent Tor routing, spoofs Wi-Fi MAC addresses, sets fake GPS coordinates, and starts browser UA rotator.</td>
+                    <td class="cli-example">anon-mode</td>
+                </tr>
+                <tr>
+                    <td><span class="cli-cmd">anti-detect</span></td>
+                    <td class="cli-desc">Core security daemon control tool for tor transparent routing, network settings spoofing, and cleanup.</td>
+                    <td class="cli-example">sudo anti-detect [tor-on|tor-off|network|clean|status]</td>
+                </tr>
+                <tr>
+                    <td><span class="cli-cmd">gps-mock</span></td>
+                    <td class="cli-desc">Sets fake NMEA geographic coordinate locations system-wide for browser/system location providers.</td>
+                    <td class="cli-example">gps-mock [tokyo|london|random|lat lon]</td>
+                </tr>
+                <tr>
+                    <td><span class="cli-cmd">ua-rotate</span></td>
+                    <td class="cli-desc">Starts browser User-Agent profile rotation agent at specified intervals to bypass WAF tracking.</td>
+                    <td class="cli-example">ua-rotate start [seconds]</td>
+                </tr>
+                <tr>
+                    <td><span class="cli-cmd">anon-nmap</span></td>
+                    <td class="cli-desc">Offensive scans wrapped safely with TCP Connect, no-ping probes, and SOCKSv5 proxying.</td>
+                    <td class="cli-example">anon-nmap -A target.com</td>
+                </tr>
+                <tr>
+                    <td><span class="cli-cmd">anon-sqlmap</span></td>
+                    <td class="cli-desc">Runs SQL injection checks using randomized browser headers and Tor routing.</td>
+                    <td class="cli-example">anon-sqlmap -u "target.com/vuln.php?id=1" --dbs</td>
+                </tr>
+                <tr>
+                    <td><span class="cli-cmd">anon-wpscan</span></td>
+                    <td class="cli-desc">Runs WordPress scans using random browser user-agents and routes through Tor proxy.</td>
+                    <td class="cli-example">anon-wpscan --url target.com</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <!-- Footer -->
