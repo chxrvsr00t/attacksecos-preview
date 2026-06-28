@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AttackSecOS — Anonymous Security Operating System</title>
+<meta name="description" content="AttackSecOS 2026.1 - Offensive & Defensive Security OS built for penetration testing, privacy, and anonymity.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bg: #050508;
+    --surface: #0c0c12;
+    --surface-2: #12121a;
+    --border: #1a1a2e;
+    --border-glow: #00ff4120;
+    --accent: #00ff41;
+    --accent-dim: #00cc33;
+    --accent-glow: rgba(0, 255, 65, 0.15);
+    --text: #e0e0e0;
+    --text-dim: #888;
+    --text-muted: #555;
+    --cyan: #00e5ff;
+    --red: #ff3355;
+    --purple: #aa44ff;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Animated background grid */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+        linear-gradient(rgba(0,255,65,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,65,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Glow orbs */
+body::after {
+    content: '';
+    position: fixed;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,255,65,0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: orbFloat 20s ease-in-out infinite;
+}
+
+@keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-100px, 100px); }
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 24px 40px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Hero section */
+.hero {
+    text-align: center;
+    padding: 40px 0 60px;
+    position: relative;
+}
+
+.logo-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 32px;
+}
+
+.logo-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: logoPulse 4s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+}
+
+.logo-ascii {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    line-height: 1.3;
+    color: var(--accent);
+    white-space: pre;
+    position: relative;
+    text-shadow: 0 0 30px var(--accent-glow), 0 0 60px rgba(0,255,65,0.05);
+}
+
+.title-group {
+    margin-bottom: 12px;
+}
+
+h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 42px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 12px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    background: linear-gradient(135deg, #ffffff 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+}
+
+.version-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    margin-top: 20px;
+}
+
+.version-badge .dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: dotBlink 2s ease-in-out infinite;
+}
+
+@keyframes dotBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.tagline {
+    font-size: 16px;
+    color: var(--text-dim);
+    margin-top: 24px;
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Stats bar */
+.stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 48px 0;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 4px;
+}
+
+/* Feature grid */
+.section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border) 0%, transparent 100%);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 24px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover {
+    border-color: var(--accent-dim);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,255,65,0.08);
+}
+
+.card:hover::before { opacity: 1; }
+
+.card-icon {
+    font-size: 20px;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.card h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.card p {
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.card .tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+}
+
+.card .tool-tag {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent-dim);
+}
+
+/* Terminal section */
+.terminal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 48px;
+}
+
+.terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+}
+
+.terminal-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+}
+
+.terminal-dot.red { background: #ff5f56; }
+.terminal-dot.yellow { background: #ffbd2e; }
+.terminal-dot.green { background: #27c93f; }
+
+.terminal-title {
+    flex: 1;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.terminal-body {
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 2;
+}
+
+.terminal-body .prompt {
+    color: var(--accent);
+}
+
+.terminal-body .cmd {
+    color: var(--text);
+}
+
+.terminal-body .comment {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.terminal-body .output {
+    color: var(--cyan);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+}
+
+.footer-quote {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-bottom: 12px;
+}
+
+.footer-brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+}
+
+.footer-brand a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-brand a:hover { color: #fff; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; }
+    h1 { font-size: 28px; letter-spacing: 6px; }
+    .stats-bar { gap: 24px; }
+    .logo-ascii { font-size: 8px; }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
+
+/* Cursor blink */
+.cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: var(--accent);
+    animation: cursorBlink 1s step-end infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+@keyframes cursorBlink { 50% { opacity: 0; } }
+</style>
+</head>
+<body>
+<div class="container">
+    <!-- Hero -->
+    <div class="hero">
+        <div class="logo-wrapper">
+<pre class="logo-ascii">
+                    _╋_
+                   ╱ ✦ ╲
+             ╱╲   ╱     ╲   ╱╲
+            ╱  ╲_╱   ┃   ╲_╱  ╲
+           ╱ &lt;╱╲&gt;╲   ╋   ╱&lt;╱╲&gt; ╲
+          ╱___╱  ╲_______╱  ╲____╲
+         ╱  .o   O  .╋.  O   o.  ╲
+        ╱═══════════════════════════╲
+       ╱  ╭─────────────────────╮    ╲
+      │   │  ╭───╮       ╭───╮  │     │
+      │   │  │ ◉ │       │ ◉ │  │     │
+      │   │  ╰───╯       ╰───╯  │     │
+      │   │        ╱   ╲        │     │
+      │   │       ╱ _▲_ ╲       │     │
+      │   │         ◥ ◤         │     │
+      │   │                     │     │
+      │   │  ╔═╤═╤═╤═╤═╤═╤═╗   │     │
+      │   │  ║ │ │ │ │ │ │ ║   │     │
+       ╲  ╰──╚═╧═╧═╧═╧═╧═╧═╝──╯    ╱
+        ╲                           ╱
+         ╲                         ╱
+          ╲_______________________╱
+</pre>
+        </div>
+        <div class="title-group">
+            <h1>AttackSecOS</h1>
+            <div class="subtitle">Anonymous Security Operating System</div>
+        </div>
+        <div class="version-badge">
+            <span class="dot"></span>
+            v2026.1 — Offensive & Defensive Security
+            <span class="cursor"></span>
+        </div>
+        <p class="tagline">
+            Zero-trust architecture. Full anonymity. Built for penetration testing, 
+            reverse engineering, and security research.
+        </p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+        <div class="stat">
+            <span class="stat-value">200+</span>
+            <span class="stat-label">Security Tools</span>
+        </div>
+        <div class="stat">
+            <span class="stat-value">100K</span>
+            <span class="stat-label">User-Agent Pool</span>
+        </div>
+        <div class="stat">
+            <span class="stat-value">22+</span>
+            <span class="stat-label">GPS Locations</span>
+        </div>
+        <div class="stat">
+            <span class="stat-value">DoH</span>
+            <span class="stat-label">DNS Encryption</span>
+        </div>
+        <div class="stat">
+            <span class="stat-value">Zero</span>
+            <span class="stat-label">Persistence Mode</span>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="section-title">☠ Capabilities</div>
+    <div class="grid">
+        <div class="card">
+            <span class="card-icon">🕵️</span>
+            <h3>Anonymous Mode</h3>
+            <p>Full identity concealment with layered anonymity</p>
+            <div class="tools">
+                <span class="tool-tag">Tor</span>
+                <span class="tool-tag">DoH</span>
+                <span class="tool-tag">MAC Spoof</span>
+                <span class="tool-tag">UA Rotator</span>
+                <span class="tool-tag">GPS Spoof</span>
+            </div>
+        </div>
+        <div class="card">
+            <span class="card-icon">🌐</span>
+            <h3>Web Pentesting</h3>
+            <p>Full-stack web application security testing</p>
+            <div class="tools">
+                <span class="tool-tag">Burp Suite</span>
+                <span class="tool-tag">Nuclei</span>
+                <span class="tool-tag">SQLMap</span>
+                <span class="tool-tag">ZAP</span>
+                <span class="tool-tag">WPScan</span>
+            </div>
+        </div>
+        <div class="card">
+            <span class="card-icon">📡</span>
+            <h3>Network Ops</h3>
+            <p>Network reconnaissance and traffic analysis</p>
+            <div class="tools">
+                <span class="tool-tag">Nmap</span>
+                <span class="tool-tag">Wireshark</span>
+                <span class="tool-tag">Masscan</span>
+                <span class="tool-tag">Aircrack</span>
+                <span class="tool-tag">Bettercap</span>
+            </div>
+        </div>
+        <div class="card">
+            <span class="card-icon">🔍</span>
+            <h3>OSINT</h3>
+            <p>Open-source intelligence gathering</p>
+            <div class="tools">
+                <span class="tool-tag">Sherlock</span>
+                <span class="tool-tag">theHarvester</span>
+                <span class="tool-tag">Subfinder</span>
+                <span class="tool-tag">SpiderFoot</span>
+            </div>
+        </div>
+        <div class="card">
+            <span class="card-icon">🔒</span>
+            <h3>Privacy</h3>
+            <p>Zero-persistence and ephemeral computing</p>
+            <div class="tools">
+                <span class="tool-tag">Tor</span>
+                <span class="tool-tag">DoH/DoT</span>
+                <span class="tool-tag">MAC Rand</span>
+                <span class="tool-tag">tmpfs</span>
+                <span class="tool-tag">BleachBit</span>
+            </div>
+        </div>
+        <div class="card">
+            <span class="card-icon">🛡️</span>
+            <h3>Hardening</h3>
+            <p>Kernel-level security and access control</p>
+            <div class="tools">
+                <span class="tool-tag">AppArmor</span>
+                <span class="tool-tag">UFW</span>
+                <span class="tool-tag">Sysctl</span>
+                <span class="tool-tag">ASLR</span>
+                <span class="tool-tag">FDE</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terminal -->
+    <div class="section-title">⌨ Quick Start</div>
+    <div class="terminal">
+        <div class="terminal-bar">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">attacksecos@attacksecos — zsh</span>
+        </div>
+        <div class="terminal-body">
+            <div><span class="comment"># Enable full anonymity mode</span></div>
+            <div><span class="prompt">$ </span><span class="cmd">anon-mode</span></div>
+            <div><span class="output">[+] Full anti-detection applied</span></div>
+            <div><span class="output">[+] Spoofed location: tokyo (35.6762, 139.6503)</span></div>
+            <div><span class="output">[+] UA rotation active</span></div>
+            <div>&nbsp;</div>
+            <div><span class="comment"># Run proxied scan</span></div>
+            <div><span class="prompt">$ </span><span class="cmd">proxychains nmap -sT -Pn target.com</span></div>
+            <div>&nbsp;</div>
+            <div><span class="comment"># OSINT investigation</span></div>
+            <div><span class="prompt">$ </span><span class="cmd">sherlock username --timeout 10</span></div>
+            <div>&nbsp;</div>
+            <div><span class="comment"># Check identity status</span></div>
+            <div><span class="prompt">$ </span><span class="cmd">anti-detect status</span></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-quote">
+            "We are Anonymous. We are Legion. We do not forgive. We do not forget. Expect us."
+        </div>
+        <div class="footer-brand">
+            <a href="#">ATTACKSECOS</a> — v2026.1 — Built on Kali Rolling
+        </div>
+    </div>
+</div>
+</body>
+</html>
